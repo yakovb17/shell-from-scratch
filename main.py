@@ -1,4 +1,5 @@
 from commands import COMMANDS_NAMES_TO_CLASS
+from commands.utils import handle_unknown_command
 
 
 def get_command_and_args_from_user_input(user_input: str) -> tuple[str, list[str]]:
@@ -14,7 +15,7 @@ def main():
         command, args = get_command_and_args_from_user_input(user_input)
         command_cls = COMMANDS_NAMES_TO_CLASS.get(command)
         if not command_cls:
-            print(f"{user_input}: command not found")
+            handle_unknown_command(command, args)
         else:
             command_cls(command_registry=COMMANDS_NAMES_TO_CLASS).execute(args)
 

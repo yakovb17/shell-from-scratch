@@ -14,10 +14,22 @@ class TypeCommand(Command):
         command = args[0]
         if command in self.command_registry:
             print(f"{command} is a shell builtin")
-        elif full_path := self._check_command_exists_as_file(command):
+        elif full_path := self.find_command_executable_file(command):
             print(f"{command} is {full_path}")
         else:
             print(f"{command}: not found")
+
+    @classmethod
+    def find_command_executable_file(cls, command: str) -> Path | None:
+        for dir_path in os.environ.get("PATH").split(os.pathsep):
+            for root, dirs, files in os.walk(dir_path):
+                if command in files and (
+                    full_path := cls._check_file_have_execute_permission(
+                        Path(root) / command
+                    )
+                ):
+                    return full_path
+        return None
 
     def _check_command_exists_as_file(self, command: str) -> Path | None:
         if (env_path := os.environ.get("PATH")) is None:
