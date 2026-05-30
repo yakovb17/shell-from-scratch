@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+from unittest.mock import patch
 
 from commands import (
     EchoCommand,
@@ -8,6 +10,8 @@ from commands import (
     PrintWorkingDirectoryCommand,
 )
 import pytest
+
+from commands.change_directory_command import ChangeDirectoryCommand
 
 
 def test_echo_command(capsys: pytest.CaptureFixture[str]) -> None:
@@ -39,3 +43,24 @@ def test_type_command_with_builtin_command(
 def test_pwd_command(capsys: pytest.CaptureFixture[str]) -> None:
     PrintWorkingDirectoryCommand().execute([])
     assert capsys.readouterr().out.strip() == os.getcwd()
+
+
+def test_cd_command(capsys: pytest.CaptureFixture[str]) -> None:
+    target_dir = Path(os.getcwd(), "commands")
+    with patch("os.chdir") as mock_chdir:
+        ChangeDirectoryCommand().execute([target_dir])
+    assert capsys.readouterr().out.strip() == ""
+    mock_chdir.assert_called_once_with(target_dir)
+
+
+def test_cd_command_with_nonexistent_directory(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    current_dir = os.getcwd()
+    target_dir = Path(current_dir, "nonexistent_directory")
+    ChangeDirectoryCommand().execute([target_dir])
+    assert (
+        capsys.readouterr().out.strip()
+        == f"cd: {target_dir}: No such file or directory"
+    )
+    assert os.getcwd() == current_dir
