@@ -10,6 +10,6 @@ def handle_unknown_command(user_command: str, command_args: list[str]) -> None:
         res = subprocess.run(
             [str(cmd_executable_file_path), *command_args], capture_output=True
         )
-        print(res.stdout.decode())
+        print(res.stdout.decode().strip())
     else:
         print(f"{user_command}: command not found")

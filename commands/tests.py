@@ -1,5 +1,9 @@
+import sys
+
 from commands import EchoCommand, ExitCommand, TypeCommand, COMMANDS_NAMES_TO_CLASS
 import pytest
+
+from commands.utils import handle_unknown_command
 
 
 def test_echo_command(capsys) -> None:
@@ -26,3 +30,7 @@ def test_type_command_with_builtin_command(
 ) -> None:
     TypeCommand(COMMANDS_NAMES_TO_CLASS).execute([command_name])
     assert capsys.readouterr().out.strip() == expected_output
+
+def test_handle_unknown_command(capsys) -> None:
+    handle_unknown_command("python", ["-V"])
+    assert capsys.readouterr().out.strip() == f"Python {sys.version.split()[0]}"
