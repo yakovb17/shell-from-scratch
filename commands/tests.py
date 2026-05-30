@@ -55,7 +55,6 @@ def test_pwd_command(capsys: pytest.CaptureFixture[str]) -> None:
 def test_cd_command(
     command_args: str, target_dir: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    target_dir = Path(os.getcwd(), "commands")
     with patch("os.chdir") as mock_chdir:
         ChangeDirectoryCommand().execute([target_dir])
     assert capsys.readouterr().out.strip() == ""
