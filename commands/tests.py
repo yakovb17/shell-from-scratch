@@ -5,7 +5,7 @@ from commands import (
     ExitCommand,
     TypeCommand,
     COMMANDS_NAMES_TO_CLASS,
-    PWDCommand,
+    PrintWorkingDirectoryCommand,
 )
 import pytest
 
@@ -37,5 +37,5 @@ def test_type_command_with_builtin_command(
 
 
 def test_pwd_command(capsys: pytest.CaptureFixture[str]) -> None:
-    PWDCommand().execute([])
+    PrintWorkingDirectoryCommand().execute([])
     assert capsys.readouterr().out.strip() == os.getcwd()
