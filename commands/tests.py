@@ -1,4 +1,12 @@
-from commands import EchoCommand, ExitCommand, TypeCommand, COMMANDS_NAMES_TO_CLASS
+import os
+
+from commands import (
+    EchoCommand,
+    ExitCommand,
+    TypeCommand,
+    COMMANDS_NAMES_TO_CLASS,
+    PWDCommand,
+)
 import pytest
 
 
@@ -26,3 +34,8 @@ def test_type_command_with_builtin_command(
 ) -> None:
     TypeCommand(COMMANDS_NAMES_TO_CLASS).execute([command_name])
     assert capsys.readouterr().out.strip() == expected_output
+
+
+def test_pwd_command(capsys: pytest.CaptureFixture[str]) -> None:
+    PWDCommand().execute([])
+    assert capsys.readouterr().out.strip() == os.getcwd()
