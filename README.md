@@ -7,6 +7,7 @@ A minimal shell implementation built from scratch in Python as a learning exerci
 - **Interactive command prompt** with a REPL interface
 - **Built-in commands** (more to be added):
   - `echo` - Print text
+  - `cd` - Change working directory
   - `pwd` - Print working directory
   - `type` - Display command information
   - `exit` - Exit the shell
