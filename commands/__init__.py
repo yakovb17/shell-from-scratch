@@ -1,3 +1,4 @@
+from commands.change_directory_command import ChangeDirectoryCommand
 from commands.command_base import Command
 from commands.echo_command import EchoCommand
 from commands.exit_command import ExitCommand
@@ -9,4 +10,5 @@ COMMANDS_NAMES_TO_CLASS: dict[str, type[Command]] = {
     "echo": EchoCommand,
     "exit": ExitCommand,
     "pwd": PrintWorkingDirectoryCommand,
+    "cd": ChangeDirectoryCommand,
 }
