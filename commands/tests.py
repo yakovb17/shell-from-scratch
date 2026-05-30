@@ -2,7 +2,7 @@ from commands import EchoCommand, ExitCommand, TypeCommand, COMMANDS_NAMES_TO_CL
 import pytest
 
 
-def test_echo_command(capsys) -> None:
+def test_echo_command(capsys: pytest.CaptureFixture[str]) -> None:
     command_args = "test echo"
     EchoCommand().execute([command_args])
     assert capsys.readouterr().out.strip() == command_args
@@ -22,7 +22,7 @@ def test_exit_command() -> None:
     ],
 )
 def test_type_command_with_builtin_command(
-    command_name, expected_output, capsys
+    command_name: str, expected_output: str, capsys: pytest.CaptureFixture[str]
 ) -> None:
     TypeCommand(COMMANDS_NAMES_TO_CLASS).execute([command_name])
     assert capsys.readouterr().out.strip() == expected_output
