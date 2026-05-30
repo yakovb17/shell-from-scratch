@@ -1,12 +1,5 @@
 from commands import COMMANDS_NAMES_TO_CLASS
-from commands.utils import handle_unknown_command
-
-
-def get_command_and_args_from_user_input(user_input: str) -> tuple[str, list[str]]:
-    splitted_input = user_input.split(" ")
-    command = splitted_input[0]
-    args = splitted_input[1:] if len(splitted_input) > 1 else []
-    return command, args
+from utils import get_command_and_args_from_user_input, handle_unknown_command
 
 
 def main():
