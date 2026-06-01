@@ -14,6 +14,12 @@ from utils import handle_unknown_command, get_command_and_args_from_user_input
         ("git commit -m 'Initial commit'", "git", ["commit", "-m", "Initial commit"]),
         ("   python   -V   ", "python", ["-V"]),
         ("singlecommand", "singlecommand", []),
+        ('echo "Hello, World!"', "echo", ["Hello, World!"]),
+        (
+            "echo \"'Hello, World! with single quote'\"",
+            "echo",
+            ["'Hello, World! with single quote'"],
+        ),
     ],
 )
 def test_get_command_and_args_from_user_input(
