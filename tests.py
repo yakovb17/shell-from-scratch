@@ -1,12 +1,27 @@
 import sys
 
+import pytest
+
 from utils import handle_unknown_command, get_command_and_args_from_user_input
 
 
-def test_get_command_and_args_from_user_input() -> None:
-    command, args = get_command_and_args_from_user_input("python -V")
-    assert command == "python"
-    assert args == ["-V"]
+@pytest.mark.parametrize(
+    ("user_input", "expected_command", "expected_args"),
+    [
+        ("python -V", "python", ["-V"]),
+        ("ls -la /home/user", "ls", ["-la", "/home/user"]),
+        ("echo 'Hello, World!'", "echo", ["Hello, World!"]),
+        ("git commit -m 'Initial commit'", "git", ["commit", "-m", "Initial commit"]),
+        ("   python   -V   ", "python", ["-V"]),
+        ("singlecommand", "singlecommand", []),
+    ],
+)
+def test_get_command_and_args_from_user_input(
+    user_input: str, expected_command: str, expected_args: list[str]
+) -> None:
+    command, args = get_command_and_args_from_user_input(user_input)
+    assert command == expected_command
+    assert args == expected_args
 
 
 def test_handle_unknown_command(capsys) -> None:
